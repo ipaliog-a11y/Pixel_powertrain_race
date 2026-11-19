@@ -1,0 +1,28 @@
+{
+  "name": "pixel-powertrain-race",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Companion PixiJS 3D race host for Pixel Powertrain (Engine_simulator) physics",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "export:cars": "node tools/export-pes-cars.mjs",
+    "postinstall": "mkdir -p .agents/skills && ln -sfn ../../node_modules/@pixi/3d/skills/pixijs-3d .agents/skills/pixijs-3d"
+  },
+  "devDependencies": {
+    "@webgpu/types": "^0.1.74",
+    "playwright-core": "^1.65.1",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.1"
+  },
+  "dependencies": {
+    "@pixi/3d": "^0.1.0",
+    "crashcat": "^0.0.5",
+    "pixi.js": "^8.23.0"
+  }
+}
