@@ -170,19 +170,20 @@ async function main() {
     onAnyInteraction: () => audio.unlock(),
   });
 
-  // Expose lightweight read-only debug hook for automated browser smoke checks
-  (window as unknown as Record<string, unknown>).__PPR_DEBUG__ = {
-    get renderer() {
-      return preference;
-    },
-    get preset() {
-      return FACTORY_PRESETS[activePresetIdx].shortName;
-    },
-    get state() {
-      return vehicleHost.state;
-    },
-    selectPreset,
-  };
+  if (import.meta.env.DEV) {
+    (window as unknown as Record<string, unknown>).__PPR_DEBUG__ = {
+      get renderer() {
+        return preference;
+      },
+      get preset() {
+        return FACTORY_PRESETS[activePresetIdx].shortName;
+      },
+      get state() {
+        return vehicleHost.state;
+      },
+      selectPreset,
+    };
+  }
 
   app.ticker.add((ticker) => {
     const dt = Math.min(1 / 25, ticker.deltaMS / 1000);
@@ -286,5 +287,8 @@ async function main() {
 
 main().catch((err) => {
   console.error(err);
-  document.body.innerHTML = `<pre style="color:#f88;padding:1rem;font:14px monospace">${String(err)}</pre>`;
+  const pre = document.createElement('pre');
+  pre.style.cssText = 'color:#f88;padding:1rem;font:14px monospace';
+  pre.textContent = String(err);
+  document.body.replaceChildren(pre);
 });
